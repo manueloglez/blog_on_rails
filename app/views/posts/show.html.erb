@@ -1,0 +1,23 @@
+<h1><%= @post.title%></h1>
+
+<p><%= @post.body %> </p>
+
+<p>Posted <%= time_ago_in_words @post.created_at %> </p>
+
+<button type="button" class="btn btn-outline-warning">
+  <%= link_to(
+    'Edit', 
+    edit_post_path(@post), 
+    class: 'btn-outline-warning'
+    ) %> 
+</button>
+<button type="button" class="btn btn-outline-danger">
+  <%= link_to(
+    'Delete', 
+    post_path(@post), 
+    method: :delete, 
+    class: 'btn-outline-danger'
+    ) %>
+</button>
+
+<h3>Comment</h3>
