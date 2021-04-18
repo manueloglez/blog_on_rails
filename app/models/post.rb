@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  has_many :comments
   validates(:title, presence: true, uniqueness: true)
 
   # To read an array of error messages after failling validation:

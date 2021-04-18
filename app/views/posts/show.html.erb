@@ -2,22 +2,42 @@
 
 <p><%= @post.body %> </p>
 
-<p>Posted <%= time_ago_in_words @post.created_at %> </p>
+<div class="mb-3">
+  <p>Posted <%= time_ago_in_words @post.created_at%> ago</p>
 
-<button type="button" class="btn btn-outline-warning">
-  <%= link_to(
-    'Edit', 
-    edit_post_path(@post), 
-    class: 'btn-outline-warning'
-    ) %> 
-</button>
-<button type="button" class="btn btn-outline-danger">
-  <%= link_to(
-    'Delete', 
-    post_path(@post), 
-    method: :delete, 
-    class: 'btn-outline-danger'
-    ) %>
-</button>
+  <button type="button" class="btn btn-outline-warning">
+    <%= link_to(
+      'Edit', 
+      edit_post_path(@post), 
+      class: 'btn-outline-warning'
+      ) %> 
+  </button>
+  <button type="button" class="btn btn-outline-danger">
+    <%= link_to(
+      'Delete', 
+      post_path(@post), 
+      method: :delete, 
+      class: 'btn-outline-danger'
+      ) %>
+  </button>
+</div>
 
 <h3>Comment</h3>
+<%= form_with(model: [@post, @comment], local: true) do |form| %>
+  <%= form.text_area(:body, class: 'form-control mb-3', placeholder: "What's on your mind?" ) %>
+  <%= form.submit 'Submit', class: 'btn btn-outline-primary mb-3' %>
+<% end %>
+
+<% @comments.each do |comment| %>
+  <div class="mb-3">
+    <span><%= comment[:body] %></span>
+    <br>
+    <small>Commented <%= time_ago_in_words comment.created_at %> ago - 
+    <%= link_to(
+      'Delete', 
+      comment_path(comment),
+      method: :delete
+    )%></small>
+    <br>
+  </div>
+<% end %>
