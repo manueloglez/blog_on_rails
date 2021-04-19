@@ -1,0 +1,13 @@
+<h1>Sign In</h1>
+
+<%= form_with url: session_path, local:true do |form| %>
+  <div>
+    <%= form.label :email, class: 'form-label' %>
+    <%= form.email_field :email, class: 'form-control mb-3' %>
+  </div>
+  <div>
+    <%= form.label :password, class: 'form-label' %>
+    <%= form.password_field :password, class: 'form-control mb-3' %>
+  </div>
+  <%= form.submit 'Sign In', class: "btn btn-outline-primary"%>
+<% end %>
