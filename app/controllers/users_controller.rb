@@ -22,6 +22,26 @@ class UsersController < ApplicationController
     end
   end
 
+  def change_password
+    @user = current_user
+  end
+
+  def update_password
+    pass_params = params.permit(:current_password, :new_password, :new_password_confirmation)
+    if current_user.authenticate(pass_params[:current_password]) && pass_params[:current_password] != pass_params[:new_password] && pass_params[:new_password] == pass_params[:new_password_confirmation]
+
+      current_user.password = pass_params[:new_password]
+      current_user.password_confirmation = pass_params[:new_password_confirmation]
+      current_user.save!
+
+      flash[:primary] = 'Password changed succesfully'
+      redirect_to edit_user_path
+    else
+      flash[:danger] = 'Wrong parameters'
+      redirect_to change_password_path(current_user)
+    end
+  end
+
   private
   def user_params
     params.require(:user).permit(
