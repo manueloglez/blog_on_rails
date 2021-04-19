@@ -5,27 +5,32 @@
 <div class="mb-3">
   <p>Posted <%= time_ago_in_words @post.created_at%> ago by <%= @user.name %></p>
 
-  <button type="button" class="btn btn-outline-warning">
-    <%= link_to(
-      'Edit', 
-      edit_post_path(@post), 
-      class: 'btn-outline-warning'
-      ) %> 
-  </button>
-  <button type="button" class="btn btn-outline-danger">
-    <%= link_to(
-      'Delete', 
-      post_path(@post), 
-      method: :delete, 
-      class: 'btn-outline-danger'
-      ) %>
-  </button>
+  <%if can? :update, @post%>
+    <button type="button" class="btn btn-outline-warning">
+      <%= link_to(
+        'Edit', 
+        edit_post_path(@post), 
+        class: 'btn-outline-warning'
+        ) %> 
+    </button>
+  <% end %>
+  <%if can? :destroy, @post%>
+    <button type="button" class="btn btn-outline-danger">
+      <%= link_to(
+        'Delete', 
+        post_path(@post), 
+        method: :delete, 
+        class: 'btn-outline-danger'
+        ) %>
+    </button>
+  <% end %>
 </div>
-
-<h3>Comment</h3>
-<%= form_with(model: [@post, @comment], local: true) do |form| %>
-  <%= form.text_area(:body, class: 'form-control mb-3', placeholder: "What's on your mind?" ) %>
-  <%= form.submit 'Submit', class: 'btn btn-outline-primary mb-3' %>
+<h3>Comments</h3>
+<% if user_signed_in? %>
+  <%= form_with(model: [@post, @comment], local: true) do |form| %>
+    <%= form.text_area(:body, class: 'form-control mb-3', placeholder: "What's on your mind?" ) %>
+    <%= form.submit 'Submit', class: 'btn btn-outline-primary mb-3' %>
+  <% end %>
 <% end %>
 
 <% @comments.each do |comment| %>
@@ -33,11 +38,15 @@
     <span><%= comment[:body] %></span>
     <br>
     <small>Commented <%= time_ago_in_words comment.created_at %> ago by <%= comment.user.name %> - 
+    <% if can? :destroy, comment %>
     <%= link_to(
       'Delete', 
       comment_path(comment),
       method: :delete
-    )%></small>
+    )%>
+    <% end %>
+    
+    </small>
     <br>
   </div>
 <% end %>

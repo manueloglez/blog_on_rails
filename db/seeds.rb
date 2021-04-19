@@ -14,6 +14,7 @@ User.delete_all
 me = User.create(
   name: "Manuel",
   email: "mang.95@gmail.com",
+  is_admin: true,
   password: PASSWORD
 )
 
