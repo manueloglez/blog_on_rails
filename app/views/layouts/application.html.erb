@@ -22,14 +22,37 @@
           <li class="nav-item">
             <%= link_to 'Home', root_path, class: "nav-link active" %>
           </li>
-          <li class="nav-item">
-            <%= link_to 'All Posts', posts_path, class: "nav-link active" %>
-          </li>
-          </li>
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to 'New Post', new_post_path, class: "nav-link active" %>
+            </li>
+          <% end %>
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to current_user.name, edit_user_path(current_user), class: "nav-link active" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Sign Out', session_path, method: :delete, data: {confirm: "Log out?" }, class: "nav-link active" %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Sign In', new_session_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Sign Up', new_user_path, class: "nav-link" %>
+            </li>
+          <% end %>
         </ul>
       </div>
     </div>
   </nav>
+  <div class="container mt-3">
+    <% flash.each do |type, message| %>
+      <div class="alert alert-<%=type %>" role="alert">
+        <%= message %>
+      </div>
+    <% end %>
     <%= yield %>
+  </div>
   </body>
 </html>

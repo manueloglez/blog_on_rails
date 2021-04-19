@@ -1,9 +1,14 @@
 <h1>Posts list</h1>
 
-<ul>
+<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-4">
   <% @posts.each do |post| %>
-    <li>
-      <%= link_to post.title, post_path(post) %>
-    </li>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"> <%= link_to post.title, post_path(post) %><small> by <%= post.user.name %> </small></h5>
+          <p class="card-text text-truncate"><%= post.body %> </p>
+        </div>
+      </div>
+    </div>
   <% end %>
-</ul>
+</div>
