@@ -8,6 +8,6 @@ class Post < ApplicationRecord
   validates(
     :body, 
     presence: { message: "post must include a body" },
-    length: { minimum: 50 },
+    length: { minimum: 15 },
   )
 end
